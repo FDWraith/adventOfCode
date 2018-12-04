@@ -32,5 +32,30 @@ c1 = Claim(1,3,4,4)
 c2 = Claim(3,1,4,4)
 print overlap(c1,c2)
 
+Attempt 2:
+
+What if we stored every position with an array-like structure? 
+
+The largest section doesn't seem to exceed 1000
 '''
 
+array = [[0 for num in range(0,1200)] for num2 in range(0,1200)]
+
+with open("input.txt","r") as f:
+    lines = f.readlines()
+    lines = [line.strip() for line in lines]
+    f.close()
+
+def interpret(line):
+    data = line.split(" ")
+    indexes = data[-2][:-1].split(",")
+    leftIndex = indexes[0]
+    topIndex = indexes[1]
+    size = data[-1].split("x")
+    width = size[0]
+    height = size[1]
+    
+    return (leftIndex, topIndex, width, height)
+
+print interpret("#2 @ 3,1: 4x4")
+    
