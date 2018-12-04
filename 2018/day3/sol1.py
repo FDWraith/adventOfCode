@@ -55,7 +55,24 @@ def interpret(line):
     width = size[0]
     height = size[1]
     
-    return (leftIndex, topIndex, width, height)
+    return (int(leftIndex), int(topIndex), int(width), int(height))
 
-print interpret("#2 @ 3,1: 4x4")
+# update array to record changed places
+for line in lines:
+    newLine = interpret(line)
+    for i in range(newLine[0], newLine[0] + newLine[2]):
+        for j in range(newLine[1], newLine[1] + newLine[3]):
+            array[i][j] += 1
+   
+
+# count up the number of tiles with 2 or more.
+count = 0
+for i in range(0, len(array)):
+    for j in range(0, len(array)):
+        if array[i][j] >= 2:
+            count += 1
+
+# return final result
+print count
+
     
