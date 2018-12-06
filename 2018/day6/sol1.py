@@ -64,17 +64,25 @@ for i in range(0, len(grid)):
     for j in range(0, len(grid[i])):
         closestSoFar = lines[0]
         closestDist = manhattanDist((i,j), lines[0])
+        dists = [closestDist]
         for line in lines:
             # ignore first, because done already
             if line != lines[0]:
                 d = manhattanDist((i,j), line)
-                if d == closestDist:
-                    grid[i][j] = "."
-                elif d < closestDist:
+                if d < closestDist:
                     closestDist = d
                     closestSoFar = line
+                dists.append(d)
+       # print (i,j)
+       # print dists
+       # print "-----------"
+        if dists.count(closestDist) > 1:
+            grid[i][j] = "(-, -)"
         if grid[i][j] == None:
             grid[i][j] = closestSoFar
+
+
+print "\n".join([", ".join([str(item) for item in row]) for row in grid])
 
 # Exclude the ones on the edges, because those will go out to infinity
 excluded = set()
@@ -84,8 +92,10 @@ for item in [row[0] for row in grid]:
     excluded.add(item)
 for item in grid[-1]:
     excluded.add(item)
-for itme in [row[-1] for row in grid]:
+for item in [row[-1] for row in grid]:
     excluded.add(item)
+
+#print excluded
 
 # exclude the excluded set
 lines = [line for line in lines if line not in excluded]
@@ -99,5 +109,7 @@ for i in range(0, len(grid)):
     for j in range(0, len(grid[i])):
         if grid[i][j] in final_counts:
             final_counts[grid[i][j]] += 1
+
+print final_counts
 
 print max(final_counts.values())
