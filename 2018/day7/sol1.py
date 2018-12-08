@@ -40,4 +40,4 @@ while len(unexplored) != 0:
             del graph[g]
     
 print order
-    
+print "".join(order)    
