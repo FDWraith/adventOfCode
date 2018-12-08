@@ -19,9 +19,9 @@ for tuple in lines:
 
 # Some values
 k = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-times = {k[index] : index + 1 for index in range(0,len(k))}
+times = {k[index] : index + 61 for index in range(0,len(k))}
 
-workers = [None, None]
+workers = [None, None, None, None, None]
 working = []
 
 timer = 0
