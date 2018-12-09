@@ -1,5 +1,5 @@
-players = 5
-max_marble = 25
+players = 438
+max_marble = 7162600
 
 class Marble(object):
     def __init__(self, val):
@@ -25,6 +25,17 @@ class Marble(object):
         self.next = None
         self.prev = None
         return self.val
+
+    def print_all(self):
+        temp = self.next
+        s = [str(self)]
+        while temp != self:
+            s.append(str(temp))
+            temp = temp.next
+        print " ".join(s)
+        
+          
+
         
 current = Marble(0)
 current.next = current
@@ -33,9 +44,10 @@ current.prev = current
 playerScores = [0 for i in range(0,players)]
 currentPlayer = 0
 marbleValue = 1
+
 while marbleValue <= max_marble:
     if marbleValue % 23 == 0:
-        playerScores[currentPlayer] += 23
+        playerScores[currentPlayer] += marbleValue
         
         temp = current
         for i in range(0,7):
@@ -51,6 +63,7 @@ while marbleValue <= max_marble:
     currentPlayer = currentPlayer + 1 if currentPlayer < players - 1 else 0
     marbleValue += 1
 
-# print playerScores
+#print playerScores
 print max(playerScores)
+
 
