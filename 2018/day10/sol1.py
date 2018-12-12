@@ -101,13 +101,22 @@ for point in points:
 # Plot the points to see message (using bounds as a limiter)
 xSize = cap[1] - cap[0] + 1
 ySize = cap[2] - cap[3] + 1
-grid = [["." for i in range(xSize + 10)] for j in range(ySize + 10)]
+
+
+
+grid = [["." for i in range(ySize + 10)] for j in range(xSize + 10)]
 
 for point in points:
     xCor = point.xCor 
     yCor = point.yCor
-    gX = xCor - xSize - 5
-    gY = yCor - xSize - 5
+
+
+
+    gX = xCor - cap[0]
+    gY = yCor - cap[3]
+   
+
+
     grid[gX][gY] = "#"
 
 
