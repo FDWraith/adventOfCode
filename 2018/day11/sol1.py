@@ -11,12 +11,13 @@ grid = [[power(i,j) for i in range(300)] for j in range(300)]
 
 # Find maximum power of 3 x 3
 mp = 0
-for y in range(297):
-    for x in range(297):
+
+for y in range(300 - 3):
+    for x in range(300 - 3):
         v = sum([grid[i][j] for i in range(x,x+3) for j in range(y, y+3)])
         if v > mp:
             mp = v
             currX = x
             currY = y
-
-print currY, currX
+                
+print currY, currX 
