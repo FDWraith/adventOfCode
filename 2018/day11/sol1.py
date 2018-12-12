@@ -19,4 +19,4 @@ for y in range(297):
             currX = x
             currY = y
 
-print currX, currY
+print currY, currX
