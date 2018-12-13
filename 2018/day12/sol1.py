@@ -40,8 +40,8 @@ leftIndex = 0
 pots = [c for c in "....."] + [char for char in head] + [c for c in "....."]
 counter = 0
 
-while counter < 20:
-    print pots
+while counter < 50000000000:
+    print pots, leftIndex
     new_pots = ["." for i in range(len(pots))]
     
     for i in range(2,len(pots) - 2):
@@ -56,10 +56,27 @@ while counter < 20:
 
 
     leftChange = len("".join(pots).lstrip(".")) - len("".join(new_pots).lstrip("."))
-    leftIndex -= leftChange
+    leftIndex += leftChange    
     new = "".join(new_pots).strip(".")
+
+    prev = "".join(pots).strip(".")
+    if prev == new:
+        leftIndex += 50000000000 - counter - 1
+        break
+
     pots = [c for c in "....."] + [char for char in new] + [c for c in "....."]
     counter += 1
 
 
+
+# Compute plant values
+total = 0
+v = leftIndex
+for c in "".join(pots).strip("."):
+    if c == "#":
+        total += v
+    v += 1
+
+print leftIndex
+print total
 
