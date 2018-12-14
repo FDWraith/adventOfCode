@@ -160,7 +160,7 @@ for yIndex in range(len(lines)):
 
 # Connect components of the grid together
 
-print "\n".join([str([str(item) for item in row]) for row in grid])
+# print "\n".join([str([str(item) for item in row]) for row in grid])
 
 # First row
 for xIndex in range(len(grid[0])):
@@ -208,8 +208,7 @@ while len(locations) == len(set(locations)):
     for cart in carts:
         cart.move()
     locations = cartLocations(carts)
+    print locations
 
 
-print locations
-
-
+print [x for x in locations if locations.count(x) > 1]
