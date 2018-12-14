@@ -84,8 +84,9 @@ class EmptyTile(TileEntity):
 
 
 class StraightTile(TileEntity):    
-    def __init__(self, X, Y):
+    def __init__(self, X, Y, p):
         TileEntity.__init__(self, X, Y)
+        self.p = p
 
     def direction(self, cart):
         return "straight"
@@ -138,23 +139,23 @@ for yIndex in range(len(lines)):
         elif row[xIndex] == "/":
             tile = TurnTile(xIndex, yIndex, (["down", "up"], ["right", "left"]))
         elif row[xIndex] == ">":
-            tile = StraightTile(xIndex, yIndex)
+            tile = StraightTile(xIndex, yIndex, "-")
             cart = Cart(tile, "right")
             carts.append(cart)
         elif row[xIndex] == "<":
-            tile = StraightTile(xIndex, yIndex)
+            tile = StraightTile(xIndex, yIndex, "-")
             cart = Cart(tile, "left")
             carts.append(cart)
         elif row[xIndex] == "^":
-            tile = StraightTile(xIndex, yIndex)
+            tile = StraightTile(xIndex, yIndex, "|")
             cart = Cart(tile, "up")
             carts.append(cart)
         elif row[xIndex] == "v":
-            tile = StraightTile(xIndex, yIndex)
+            tile = StraightTile(xIndex, yIndex, "|")
             cart = Cart(tile, "down")
             carts.append(cart)
         else:
-            tile = StraightTile(xIndex, yIndex)
+            tile = StraightTile(xIndex, yIndex, row[xIndex])
 
         grid[yIndex][xIndex] = tile
 
@@ -202,13 +203,64 @@ def cartLocations(carts):
         locations.append(loc)
     return locations
 
+# print out the grid, with the carts
+def print_grid(g, carts):
+    s = [[None for i in range(len(row))] for row in grid]
+    for yIndex in range(len(grid)):
+        for xIndex in range(len(grid[yIndex])):
+            tile = grid[yIndex][xIndex]
+            
+            if isinstance(tile, StraightTile):
+                pixel = tile.p
+            elif isinstance(tile, TurnTile):
+                if tile.faces[0] == ["right", "left"]:
+                    pixel = "\\"
+                else:
+                    pixel = "/"
+            elif isinstance(tile, IntersectionTile):
+                pixel = "+"
+            else:
+                pixel = " "
+
+            cartHere = False            
+            for cart in carts:
+                if cart.currentTile == tile:
+                    if cartHere:
+                        pixel = "X"
+                    else:
+                        cartHere = True
+                        if cart.dirn() == "up":
+                            pixel = "^"
+                        elif cart.dirn() == "down":
+                            pixel = "v"
+                        elif cart.dirn() == "left":
+                            pixel = "<"
+                        elif cart.dirn() == "right":
+                            pixel = ">"
+            s[yIndex][xIndex] = pixel
+    return "\n".join(["".join(row) for row in s])
+
+def sort_key(c):
+    return c.currentTile.Y * 1000000 + c.currentTile.X
 
 locations = cartLocations(carts)
+
+# print locations
+tick = 0
 while len(locations) == len(set(locations)):
+    # print tick
+    # print print_grid(grid,carts)
+    # print locations
+    # print "--------------------------------------------------------"
     for cart in carts:
         cart.move()
+        if len(cartLocations(carts)) != len(set(cartLocations(carts))):
+            locations = cartLocations(carts)
+            break
     locations = cartLocations(carts)
-    print locations
+    carts.sort(key = sort_key) 
+    tick += 1
 
+print print_grid(grid,carts)
 
 print [x for x in locations if locations.count(x) > 1]
